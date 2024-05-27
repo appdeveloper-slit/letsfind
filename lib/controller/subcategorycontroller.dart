@@ -4,6 +4,7 @@ import '../data/static_method.dart';
 
 List shopList = [];
 List favlist = [];
+List Shopbannerlist = [];
 
 class subCategoryController {
   void getShops(ctx, setState, id) async {
@@ -22,6 +23,7 @@ class subCategoryController {
     if (result['success'] == true) {
       setState(() {
         shopList = result['data']['shops'];
+        Shopbannerlist = result['data']['banners'];
       });
     } else {
       STM().errorDialog(ctx, result['message']);

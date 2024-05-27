@@ -1,4 +1,5 @@
 import 'package:auto_size_widget/auto_size_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +28,12 @@ class SubCategoryPage extends StatefulWidget {
 
 class _SubCategoryPageState extends State<SubCategoryPage> {
   late BuildContext ctx;
-
+  int selectedSlider = 0;
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      subCategoryController().getShops(ctx, setState, widget.data['id'].toString());
+      subCategoryController()
+          .getShops(ctx, setState, widget.data['id'].toString());
     });
     super.initState();
   }
@@ -82,6 +84,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
         padding: EdgeInsets.all(Dim().d16),
         child: Column(
           children: [
+            if (Shopbannerlist.isNotEmpty) sliderLayout(ctx),
             if (shopList.isEmpty)
               Column(
                 children: [
@@ -123,6 +126,51 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget sliderLayout(ctx) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        viewportFraction: 0.9,
+        height: 180,
+        initialPage: 0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {
+            selectedSlider = index;
+          });
+        },
+      ),
+      items: Shopbannerlist.map((url) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: Dim().d12),
+          child: Builder(
+            builder: (BuildContext context) {
+              return InkWell(
+                onTap: () {
+                  STM().getLink(
+                    link: url['link'],
+                    linktype: url['link_type'],
+                    moduleid: url['module_id'],
+                    productid: url['product_id'],
+                    ctx: ctx,
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    url['image'],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }).toList(),
     );
   }
 

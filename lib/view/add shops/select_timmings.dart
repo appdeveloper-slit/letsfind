@@ -60,8 +60,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 1,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Sunday"
@@ -69,8 +75,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 2,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Monday"
@@ -78,8 +90,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 3,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Tuesday"
@@ -87,8 +105,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 4,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Wednesday"
@@ -96,8 +120,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 5,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Thursday"
@@ -105,8 +135,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 6,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Friday"
@@ -114,8 +150,14 @@ class _SelectTimingState extends State<SelectTiming> {
     {
       'day_id': 7,
       'time': [
-        {"from": '', "to": ''},
-        {"from": '', "to": ''}
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        },
+        {
+          "from": '${DateFormat('hh:mm a').format(DateTime.now())}',
+          "to": '${DateFormat('hh:mm a').format(DateTime.now())}'
+        }
       ],
       "show": false,
       "name": "Saturday"
@@ -174,10 +216,6 @@ class _SelectTimingState extends State<SelectTiming> {
                 {
                   "from": widget.data['shop_schedule'][a]['time'][1]['from'],
                   "to": widget.data['shop_schedule'][a]['time'][1]['to'],
-                }
-              else
-                {
-                  {"from": '', "to": ''}
                 }
             ],
             "show": true,
@@ -525,149 +563,221 @@ class _SelectTimingState extends State<SelectTiming> {
                                                     return Padding(
                                                       padding: EdgeInsets.only(
                                                           bottom: Dim().d12),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          InkWell(
-                                                            onTap: () async {
-                                                              TimeOfDay?
-                                                                  picked =
-                                                                  await showTimePicker(
-                                                                context:
-                                                                    context,
-                                                                initialTime:
-                                                                    TimeOfDay
-                                                                        .now(),
-                                                              );
-                                                              if (picked !=
-                                                                  null) {
-                                                                setState(() {
-                                                                  print(picked
-                                                                      .toString()
-                                                                      .replaceAll(
-                                                                          'TimeOfDay(',
-                                                                          '')
-                                                                      .replaceAll(
-                                                                          ')',
-                                                                          ''));
-                                                                  print(picked
-                                                                      .minute);
-                                                                  scheduleList[index]['time'][index2]['from'] = picked
-                                                                      .toString()
-                                                                      .replaceAll(
-                                                                          'TimeOfDay(',
-                                                                          '')
-                                                                      .replaceAll(
-                                                                          ')',
-                                                                          '');
-                                                                });
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              height: Dim().d20,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border: Border(
-                                                                  bottom:
-                                                                      BorderSide(
-                                                                    color: Clr()
-                                                                        .black,
-                                                                    // You can set the border color here
-                                                                    width:
-                                                                        1.0, // You can set the border width here
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  TimeOfDay?
+                                                                      picked =
+                                                                      await showTimePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialTime:
+                                                                        TimeOfDay
+                                                                            .now(),
+                                                                  );
+                                                                  if (picked !=
+                                                                      null) {
+                                                                    setState(
+                                                                        () {
+                                                                      print(picked
+                                                                          .toString()
+                                                                          .replaceAll(
+                                                                              'TimeOfDay(',
+                                                                              '')
+                                                                          .replaceAll(
+                                                                              ')',
+                                                                              ''));
+                                                                      print(picked
+                                                                          .minute);
+                                                                      scheduleList[index]['time'][index2]['from'] = picked
+                                                                          .toString()
+                                                                          .replaceAll(
+                                                                              'TimeOfDay(',
+                                                                              '')
+                                                                          .replaceAll(
+                                                                              ')',
+                                                                              '');
+                                                                    });
+                                                                  } else {
+                                                                    setState(
+                                                                        () {
+                                                                      scheduleList[index]['time'][index2]
+                                                                              [
+                                                                              'from'] =
+                                                                          '${DateFormat('hh:mm a').format(DateTime.now())}';
+                                                                    });
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  height:
+                                                                      Dim().d20,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border:
+                                                                        Border(
+                                                                      bottom:
+                                                                          BorderSide(
+                                                                        color: Clr()
+                                                                            .black,
+                                                                        // You can set the border color here
+                                                                        width:
+                                                                            1.0, // You can set the border width here
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  child: Text(
+                                                                    scheduleList[index]['time']
+                                                                            [
+                                                                            index2]
+                                                                        [
+                                                                        'from'],
                                                                   ),
                                                                 ),
                                                               ),
-                                                              child: Text(
-                                                                scheduleList[index]['time'][index2]
-                                                                            [
-                                                                            'from'] ==
-                                                                        ''
-                                                                    ? '${DateFormat('hh:mm a').format(DateTime.now())}'
-                                                                    : '${DateFormat('hh:mm a').format(DateTime.parse('0000-00-00T${scheduleList[index]['time'][index2]['from']}'))}',
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
+                                                              Padding(
+                                                                padding: const EdgeInsets
                                                                     .symmetric(
                                                                     horizontal:
                                                                         8.0),
-                                                            child: Icon(
-                                                                CupertinoIcons
-                                                                    .equal,
-                                                                size: 10),
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () async {
-                                                              TimeOfDay?
-                                                                  picked =
-                                                                  await showTimePicker(
-                                                                context:
-                                                                    context,
-                                                                initialTime:
-                                                                    TimeOfDay
-                                                                        .now(),
-                                                              );
-                                                              if (picked !=
-                                                                  null) {
-                                                                setState(() {
-                                                                  print(picked
-                                                                      .format(
-                                                                          ctx));
-                                                                  scheduleList[index]['time'][index2]['to'] = picked
-                                                                      .toString()
-                                                                      .replaceAll(
-                                                                          'TimeOfDay(',
-                                                                          '')
-                                                                      .replaceAll(
-                                                                          ')',
-                                                                          '');
-                                                                });
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              height: Dim().d20,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border: Border(
-                                                                  bottom:
-                                                                      BorderSide(
-                                                                    color: Clr()
-                                                                        .black,
-                                                                    // You can set the border color here
-                                                                    width:
-                                                                        1.0, // You can set the border width here
+                                                                child: Icon(
+                                                                    CupertinoIcons
+                                                                        .equal,
+                                                                    size: 10),
+                                                              ),
+                                                              InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  TimeOfDay?
+                                                                      picked =
+                                                                      await showTimePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialTime:
+                                                                        TimeOfDay
+                                                                            .now(),
+                                                                  );
+                                                                  if (picked !=
+                                                                      null) {
+                                                                    setState(
+                                                                        () {
+                                                                      print(picked
+                                                                          .format(
+                                                                              ctx));
+                                                                      scheduleList[index]['time'][index2]['to'] = picked
+                                                                          .toString()
+                                                                          .replaceAll(
+                                                                              'TimeOfDay(',
+                                                                              '')
+                                                                          .replaceAll(
+                                                                              ')',
+                                                                              '');
+                                                                    });
+                                                                  } else {
+                                                                    scheduleList[index]['time'][index2]
+                                                                            [
+                                                                            'to'] =
+                                                                        '${DateFormat('hh:mm a').format(DateTime.now())}';
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  height:
+                                                                      Dim().d20,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border:
+                                                                        Border(
+                                                                      bottom:
+                                                                          BorderSide(
+                                                                        color: Clr()
+                                                                            .black,
+                                                                        // You can set the border color here
+                                                                        width:
+                                                                            1.0, // You can set the border width here
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  child: Text(
+                                                                    scheduleList[index]
+                                                                            [
+                                                                            'time']
+                                                                        [
+                                                                        index2]['to'],
                                                                   ),
                                                                 ),
                                                               ),
-                                                              child: Text(
-                                                                scheduleList[index]['time'][index2]
-                                                                            [
-                                                                            'to'] ==
-                                                                        ''
-                                                                    ? '${DateFormat('hh:mm a').format(DateTime.now())}'
-                                                                    : '${DateFormat('hh:mm a').format(DateTime.parse('0000-00-00T${scheduleList[index]['time'][index2]['to']}'))}',
-                                                              ),
-                                                            ),
+                                                              InkWell(
+                                                                  onTap: () {
+                                                                    setState(
+                                                                        () {
+                                                                      scheduleList[index]
+                                                                              [
+                                                                              'time']
+                                                                          .removeAt(
+                                                                              index2);
+                                                                    });
+                                                                  },
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            4.0),
+                                                                    child: Icon(
+                                                                        CupertinoIcons
+                                                                            .multiply,
+                                                                        color: Clr()
+                                                                            .primaryColor,
+                                                                        size:
+                                                                            16),
+                                                                  ))
+                                                            ],
                                                           ),
-                                                          InkWell(
-                                                              onTap: () {},
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        4.0),
-                                                                child: Icon(
-                                                                    CupertinoIcons
-                                                                        .multiply,
-                                                                    color: Clr()
-                                                                        .primaryColor,
-                                                                    size: 16),
-                                                              ))
+                                                          if (scheduleList[
+                                                                          index]
+                                                                      ['time']
+                                                                  .length ==
+                                                              1)
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: Dim()
+                                                                          .d8),
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    scheduleList[index]
+                                                                            [
+                                                                            'time']
+                                                                        .add({
+                                                                      "from":
+                                                                          '${DateFormat('hh:mm a').format(DateTime.now())}',
+                                                                      "to":
+                                                                          '${DateFormat('hh:mm a').format(DateTime.now())}'
+                                                                    });
+                                                                  });
+                                                                },
+                                                                child: Text(
+                                                                  '+ Add a set hours',
+                                                                  style: Sty()
+                                                                      .smallText
+                                                                      .copyWith(
+                                                                          color:
+                                                                              Colors.orange),
+                                                                ),
+                                                              ),
+                                                            )
                                                         ],
                                                       ),
                                                     );
@@ -966,17 +1076,20 @@ class _SelectTimingState extends State<SelectTiming> {
     SharedPreferences sp = await SharedPreferences.getInstance();
     List<Map<String, dynamic>> finalList = [];
     for (int a = 0; a < scheduleList.length; a++) {
-      setState(() {
-        finalList.add({
-          "day_id": scheduleList[a]['day_id'],
-          "time": scheduleList[a]['time']
+      if (scheduleList[a]['show'] == true) {
+        setState(() {
+          finalList.add({
+            "day_id": scheduleList[a]['day_id'],
+            "time": scheduleList[a]['time']
+          });
         });
-      });
+      }
     }
     var body = {
       "shop_id": widget.data != null ? widget.data['id'] : sShopID,
       "schedules": finalList,
     };
+    print(body);
     var result = await STM().allApi(
         apiname: 'step7',
         ctx: ctx,

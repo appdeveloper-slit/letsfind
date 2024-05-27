@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:letsfind/values/dimens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../bottomnavigation/bottomnavigationPage.dart';
 import '../../data/static_method.dart';
 import '../../values/colors.dart';
@@ -29,6 +29,9 @@ class _SearchPartnerState extends State<SearchPartner> {
   TextEditingController areaCtrl = TextEditingController();
   TextEditingController minCtrl = TextEditingController();
   TextEditingController maxCtrl = TextEditingController();
+
+  List bannerList = [];
+  int selectedSlider = 0;
 
   var propertyData;
 
@@ -124,9 +127,9 @@ class _SearchPartnerState extends State<SearchPartner> {
           title: Text(
             'Matrimony',
             style: Sty().largeText.copyWith(
-              color: Clr().primaryColor,
-              fontWeight: FontWeight.w800,
-            ),
+                  color: Clr().primaryColor,
+                  fontWeight: FontWeight.w800,
+                ),
           ),
         ),
         body: SingleChildScrollView(
@@ -135,6 +138,7 @@ class _SearchPartnerState extends State<SearchPartner> {
             key: _formKey,
             child: Column(
               children: [
+                if (bannerList.isNotEmpty) sliderLayout(ctx),
                 Container(
                   decoration: BoxDecoration(
                     color: Clr().white,
@@ -160,7 +164,7 @@ class _SearchPartnerState extends State<SearchPartner> {
                                 children: [
                                   Padding(
                                     padding:
-                                    EdgeInsets.symmetric(horizontal: 16.0),
+                                        EdgeInsets.symmetric(horizontal: 16.0),
                                     child: Text(
                                       'Gender',
                                       style: Sty().microText.copyWith(
@@ -186,15 +190,15 @@ class _SearchPartnerState extends State<SearchPartner> {
                                                 borderSide: BorderSide(
                                                     color: Clr().primaryColor),
                                                 borderRadius:
-                                                BorderRadius.circular(55)),
+                                                    BorderRadius.circular(55)),
                                             border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(55),
+                                                    BorderRadius.circular(55),
                                                 borderSide: BorderSide(
                                                     color: Clr().borderColor,
                                                     width: 0.5)),
                                             contentPadding:
-                                            EdgeInsets.symmetric(
+                                                EdgeInsets.symmetric(
                                               horizontal: Dim().d20,
                                               vertical: Dim().d12,
                                             )),
@@ -203,8 +207,8 @@ class _SearchPartnerState extends State<SearchPartner> {
                                         hint: Text(
                                           sType ?? 'Select Gender',
                                           style: Sty().smallText.copyWith(
-                                            color: Clr().hintColor,
-                                          ),
+                                                color: Clr().hintColor,
+                                              ),
                                         ),
                                         icon: SvgPicture.asset(
                                           "assets/down_arrow.svg",
@@ -217,8 +221,8 @@ class _SearchPartnerState extends State<SearchPartner> {
                                             child: Text(
                                                 string['name'].toString(),
                                                 style: Sty().smallText.copyWith(
-                                                  color: Clr().black,
-                                                )),
+                                                      color: Clr().black,
+                                                    )),
                                           );
                                         }).toList(),
                                         onChanged: (v) {
@@ -242,7 +246,7 @@ class _SearchPartnerState extends State<SearchPartner> {
                                 children: [
                                   Padding(
                                     padding:
-                                    EdgeInsets.symmetric(horizontal: 16.0),
+                                        EdgeInsets.symmetric(horizontal: 16.0),
                                     child: Text(
                                       'Marital Status',
                                       style: Sty().microText.copyWith(
@@ -268,15 +272,15 @@ class _SearchPartnerState extends State<SearchPartner> {
                                                 borderSide: BorderSide(
                                                     color: Clr().primaryColor),
                                                 borderRadius:
-                                                BorderRadius.circular(55)),
+                                                    BorderRadius.circular(55)),
                                             border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(55),
+                                                    BorderRadius.circular(55),
                                                 borderSide: BorderSide(
                                                     color: Clr().borderColor,
                                                     width: 0.5)),
                                             contentPadding:
-                                            EdgeInsets.symmetric(
+                                                EdgeInsets.symmetric(
                                               horizontal: Dim().d20,
                                               vertical: Dim().d12,
                                             )),
@@ -285,8 +289,8 @@ class _SearchPartnerState extends State<SearchPartner> {
                                         hint: Text(
                                           sCity ?? 'Select City',
                                           style: Sty().smallText.copyWith(
-                                            color: Clr().hintColor,
-                                          ),
+                                                color: Clr().hintColor,
+                                              ),
                                         ),
                                         icon: SvgPicture.asset(
                                           "assets/down_arrow.svg",
@@ -299,8 +303,8 @@ class _SearchPartnerState extends State<SearchPartner> {
                                             child: Text(
                                                 string['name'].toString(),
                                                 style: Sty().smallText.copyWith(
-                                                  color: Clr().black,
-                                                )),
+                                                      color: Clr().black,
+                                                    )),
                                           );
                                         }).toList(),
                                         onChanged: (v) {
@@ -343,7 +347,7 @@ class _SearchPartnerState extends State<SearchPartner> {
                                   fillColor: Clr().white,
                                   focusedBorder: OutlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Clr().primaryColor),
+                                          BorderSide(color: Clr().primaryColor),
                                       borderRadius: BorderRadius.circular(55)),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(55),
@@ -359,8 +363,8 @@ class _SearchPartnerState extends State<SearchPartner> {
                               hint: Text(
                                 sTypeOfProperty ?? 'Select Type of Property',
                                 style: Sty().smallText.copyWith(
-                                  color: Clr().hintColor,
-                                ),
+                                      color: Clr().hintColor,
+                                    ),
                               ),
                               icon: SvgPicture.asset(
                                 "assets/down_arrow.svg",
@@ -372,8 +376,8 @@ class _SearchPartnerState extends State<SearchPartner> {
                                   value: string['id'].toString(),
                                   child: Text(string['name'].toString(),
                                       style: Sty().smallText.copyWith(
-                                        color: Clr().black,
-                                      )),
+                                            color: Clr().black,
+                                          )),
                                 );
                               }).toList(),
                               onChanged: (v) {
@@ -388,392 +392,392 @@ class _SearchPartnerState extends State<SearchPartner> {
                         sType == null
                             ? Container()
                             : Container(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: Dim().d20,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: Dim().d20,
+                                    ),
+                                    Row(
                                       children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16.0),
-                                          child: Text(
-                                            'Ownership',
-                                            style: Sty()
-                                                .microText
-                                                .copyWith(
-                                                color: Clr().textGrey,
-                                                fontWeight:
-                                                FontWeight.w600),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: Dim().d4,
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  55),
-                                              border: Border.all(
-                                                  color:
-                                                  Clr().borderColor)),
-                                          child:
-                                          DropdownButtonHideUnderline(
-                                            child:
-                                            DropdownButtonFormField<
-                                                String>(
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  10),
-                                              decoration: InputDecoration(
-                                                  filled: true,
-                                                  fillColor: Clr().white,
-                                                  focusedBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Clr()
-                                                              .primaryColor),
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          55)),
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          55),
-                                                      borderSide: BorderSide(
-                                                          color: Clr()
-                                                              .borderColor,
-                                                          width: 0.5)),
-                                                  contentPadding:
-                                                  EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: Dim().d20,
-                                                    vertical: Dim().d12,
-                                                  )),
-                                              // value: sCity,
-                                              isExpanded: true,
-                                              hint: Text(
-                                                sOwnership ??
-                                                    'Select Buy/Rent',
-                                                style: Sty()
-                                                    .smallText
-                                                    .copyWith(
-                                                  color:
-                                                  Clr().hintColor,
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.0),
+                                                child: Text(
+                                                  'Ownership',
+                                                  style: Sty()
+                                                      .microText
+                                                      .copyWith(
+                                                          color: Clr().textGrey,
+                                                          fontWeight:
+                                                              FontWeight.w600),
                                                 ),
                                               ),
-                                              icon: SvgPicture.asset(
-                                                "assets/down_arrow.svg",
-                                                color: Clr().textcolor,
+                                              SizedBox(
+                                                height: Dim().d4,
                                               ),
-                                              // style: TextStyle(color: Color(0xff2D2D2D)),
-                                              items: ownershipList
-                                                  .map((string) {
-                                                return DropdownMenuItem<
-                                                    String>(
-                                                  value: string['id']
-                                                      .toString(),
-                                                  child: Text(
-                                                      string['name']
-                                                          .toString(),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            55),
+                                                    border: Border.all(
+                                                        color:
+                                                            Clr().borderColor)),
+                                                child:
+                                                    DropdownButtonHideUnderline(
+                                                  child:
+                                                      DropdownButtonFormField<
+                                                          String>(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    decoration: InputDecoration(
+                                                        filled: true,
+                                                        fillColor: Clr().white,
+                                                        focusedBorder: OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                color: Clr()
+                                                                    .primaryColor),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        55)),
+                                                        border: OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        55),
+                                                            borderSide: BorderSide(
+                                                                color: Clr()
+                                                                    .borderColor,
+                                                                width: 0.5)),
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: Dim().d20,
+                                                          vertical: Dim().d12,
+                                                        )),
+                                                    // value: sCity,
+                                                    isExpanded: true,
+                                                    hint: Text(
+                                                      sOwnership ??
+                                                          'Select Buy/Rent',
                                                       style: Sty()
                                                           .smallText
                                                           .copyWith(
-                                                        color: Clr()
-                                                            .black,
-                                                      )),
-                                                );
-                                              }).toList(),
-                                              onChanged: (v) {
-                                                setState(() {
-                                                  sOwnership = v;
-                                                  print(
-                                                      "sOwnership :: $sOwnership");
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: Dim().d12,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16.0),
-                                          child: Text(
-                                            'Area (sqft onwards)',
-                                            style: Sty()
-                                                .microText
-                                                .copyWith(
-                                                color: Clr().textGrey,
-                                                fontWeight:
-                                                FontWeight.w600),
+                                                            color:
+                                                                Clr().hintColor,
+                                                          ),
+                                                    ),
+                                                    icon: SvgPicture.asset(
+                                                      "assets/down_arrow.svg",
+                                                      color: Clr().textcolor,
+                                                    ),
+                                                    // style: TextStyle(color: Color(0xff2D2D2D)),
+                                                    items: ownershipList
+                                                        .map((string) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: string['id']
+                                                            .toString(),
+                                                        child: Text(
+                                                            string['name']
+                                                                .toString(),
+                                                            style: Sty()
+                                                                .smallText
+                                                                .copyWith(
+                                                                  color: Clr()
+                                                                      .black,
+                                                                )),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        sOwnership = v;
+                                                        print(
+                                                            "sOwnership :: $sOwnership");
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         SizedBox(
-                                          height: Dim().d4,
+                                          width: Dim().d12,
                                         ),
-                                        TextFormField(
-                                          controller: areaCtrl,
-                                          onTapOutside: (event) {
-                                            FocusScope.of(context)
-                                                .unfocus();
-                                          },
-                                          cursorColor:
-                                          Clr().textcolorsgray,
-                                          style: Sty().smallText.copyWith(
-                                              color: Clr().textcolor,
-                                              fontWeight:
-                                              FontWeight.w500),
-                                          keyboardType:
-                                          TextInputType.number,
-                                          textInputAction:
-                                          TextInputAction.done,
-                                          obscureText: false,
-                                          decoration: Sty()
-                                              .textFieldOutlineStyle
-                                              .copyWith(
-                                            border:
-                                            OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(
-                                                    width:
-                                                    0.1),
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    55)),
-                                            enabledBorder:
-                                            OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(55),
-                                              borderSide: BorderSide(
-                                                color:
-                                                // whatsappCtrl.text.isNotEmpty ||
-                                                //     isFocused
-                                                //     ? Clr().primaryColor
-                                                //     :
-                                                Clr().hintColor,
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.0),
+                                                child: Text(
+                                                  'Area (sqft onwards)',
+                                                  style: Sty()
+                                                      .microText
+                                                      .copyWith(
+                                                          color: Clr().textGrey,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                ),
                                               ),
-                                            ),
-                                            hintStyle: Sty()
-                                                .smallText
-                                                .copyWith(
-                                                color: Clr().grey,
-                                                fontFamily: "SF"),
-                                            hintText: "Min. sqft",
-                                            counterText: "",
-                                            contentPadding:
-                                            EdgeInsets.symmetric(
-                                              horizontal: Dim().d20,
-                                              vertical: Dim().d14,
-                                            ),
+                                              SizedBox(
+                                                height: Dim().d4,
+                                              ),
+                                              TextFormField(
+                                                controller: areaCtrl,
+                                                onTapOutside: (event) {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                },
+                                                cursorColor:
+                                                    Clr().textcolorsgray,
+                                                style: Sty().smallText.copyWith(
+                                                    color: Clr().textcolor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                obscureText: false,
+                                                decoration: Sty()
+                                                    .textFieldOutlineStyle
+                                                    .copyWith(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                      width:
+                                                                          0.1),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          55)),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(55),
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              // whatsappCtrl.text.isNotEmpty ||
+                                                              //     isFocused
+                                                              //     ? Clr().primaryColor
+                                                              //     :
+                                                              Clr().hintColor,
+                                                        ),
+                                                      ),
+                                                      hintStyle: Sty()
+                                                          .smallText
+                                                          .copyWith(
+                                                              color: Clr().grey,
+                                                              fontFamily: "SF"),
+                                                      hintText: "Min. sqft",
+                                                      counterText: "",
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal: Dim().d20,
+                                                        vertical: Dim().d14,
+                                                      ),
+                                                    ),
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return Str().invalidEmpty;
+                                                  } else {
+                                                    return null;
+                                                  }
+                                                },
+                                              ),
+                                            ],
                                           ),
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return Str().invalidEmpty;
-                                            } else {
-                                              return null;
-                                            }
-                                          },
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: Dim().d20,
-                              ),
-                              Row(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                    child: Column(
+                                    SizedBox(
+                                      height: Dim().d20,
+                                    ),
+                                    Row(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.end,
                                       children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16.0),
-                                          child: Text(
-                                            'Budget Range (in ₹)',
-                                            style: Sty()
-                                                .microText
-                                                .copyWith(
-                                                color: Clr().textGrey,
-                                                fontWeight:
-                                                FontWeight.w600),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.0),
+                                                child: Text(
+                                                  'Budget Range (in ₹)',
+                                                  style: Sty()
+                                                      .microText
+                                                      .copyWith(
+                                                          color: Clr().textGrey,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: Dim().d4,
+                                              ),
+                                              TextFormField(
+                                                onTapOutside: (event) {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                },
+                                                controller: minCtrl,
+                                                cursorColor:
+                                                    Clr().textcolorsgray,
+                                                style: Sty().smallText.copyWith(
+                                                    color: Clr().textcolor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                decoration: Sty()
+                                                    .textFieldOutlineStyle
+                                                    .copyWith(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                      width:
+                                                                          0.1),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          55)),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(55),
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Clr().hintColor,
+                                                        ),
+                                                      ),
+                                                      hintStyle: Sty()
+                                                          .smallText
+                                                          .copyWith(
+                                                              color: Clr().grey,
+                                                              fontFamily: "SF"),
+                                                      hintText: "Min Value",
+                                                      counterText: "",
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal: Dim().d20,
+                                                        vertical: Dim().d14,
+                                                      ),
+                                                    ),
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return Str().invalidEmpty;
+                                                  } else {
+                                                    return null;
+                                                  }
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         SizedBox(
-                                          height: Dim().d4,
+                                          width: Dim().d12,
                                         ),
-                                        TextFormField(
-                                          onTapOutside: (event) {
-                                            FocusScope.of(context)
-                                                .unfocus();
-                                          },
-                                          controller: minCtrl,
-                                          cursorColor:
-                                          Clr().textcolorsgray,
-                                          style: Sty().smallText.copyWith(
-                                              color: Clr().textcolor,
-                                              fontWeight:
-                                              FontWeight.w500),
-                                          keyboardType:
-                                          TextInputType.number,
-                                          textInputAction:
-                                          TextInputAction.done,
-                                          decoration: Sty()
-                                              .textFieldOutlineStyle
-                                              .copyWith(
-                                            border:
-                                            OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(
-                                                    width:
-                                                    0.1),
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    55)),
-                                            enabledBorder:
-                                            OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(55),
-                                              borderSide: BorderSide(
-                                                color:
-                                                Clr().hintColor,
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                height: Dim().d4,
                                               ),
-                                            ),
-                                            hintStyle: Sty()
-                                                .smallText
-                                                .copyWith(
-                                                color: Clr().grey,
-                                                fontFamily: "SF"),
-                                            hintText: "Min Value",
-                                            counterText: "",
-                                            contentPadding:
-                                            EdgeInsets.symmetric(
-                                              horizontal: Dim().d20,
-                                              vertical: Dim().d14,
-                                            ),
+                                              TextFormField(
+                                                controller: maxCtrl,
+                                                onTapOutside: (event) {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                },
+                                                cursorColor:
+                                                    Clr().textcolorsgray,
+                                                style: Sty().smallText.copyWith(
+                                                    color: Clr().textcolor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                obscureText: false,
+                                                decoration: Sty()
+                                                    .textFieldOutlineStyle
+                                                    .copyWith(
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                      width:
+                                                                          0.1),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          55)),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(55),
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              // whatsappCtrl.text.isNotEmpty ||
+                                                              //     isFocused
+                                                              //     ? Clr().primaryColor
+                                                              //     :
+                                                              Clr().hintColor,
+                                                        ),
+                                                      ),
+                                                      hintStyle: Sty()
+                                                          .smallText
+                                                          .copyWith(
+                                                              color: Clr().grey,
+                                                              fontFamily: "SF"),
+                                                      hintText: "Max Value",
+                                                      counterText: "",
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal: Dim().d20,
+                                                        vertical: Dim().d14,
+                                                      ),
+                                                    ),
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return Str().invalidEmpty;
+                                                  } else {
+                                                    return null;
+                                                  }
+                                                },
+                                              ),
+                                            ],
                                           ),
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return Str().invalidEmpty;
-                                            } else {
-                                              return null;
-                                            }
-                                          },
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: Dim().d12,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: Dim().d4,
-                                        ),
-                                        TextFormField(
-                                          controller: maxCtrl,
-                                          onTapOutside: (event) {
-                                            FocusScope.of(context)
-                                                .unfocus();
-                                          },
-                                          cursorColor:
-                                          Clr().textcolorsgray,
-                                          style: Sty().smallText.copyWith(
-                                              color: Clr().textcolor,
-                                              fontWeight:
-                                              FontWeight.w500),
-                                          keyboardType:
-                                          TextInputType.number,
-                                          textInputAction:
-                                          TextInputAction.done,
-                                          obscureText: false,
-                                          decoration: Sty()
-                                              .textFieldOutlineStyle
-                                              .copyWith(
-                                            border:
-                                            OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide(
-                                                    width:
-                                                    0.1),
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    55)),
-                                            enabledBorder:
-                                            OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(55),
-                                              borderSide: BorderSide(
-                                                color:
-                                                // whatsappCtrl.text.isNotEmpty ||
-                                                //     isFocused
-                                                //     ? Clr().primaryColor
-                                                //     :
-                                                Clr().hintColor,
-                                              ),
-                                            ),
-                                            hintStyle: Sty()
-                                                .smallText
-                                                .copyWith(
-                                                color: Clr().grey,
-                                                fontFamily: "SF"),
-                                            hintText: "Max Value",
-                                            counterText: "",
-                                            contentPadding:
-                                            EdgeInsets.symmetric(
-                                              horizontal: Dim().d20,
-                                              vertical: Dim().d14,
-                                            ),
-                                          ),
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return Str().invalidEmpty;
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
+                                  ],
+                                ),
+                              )
                       ],
                     ),
                   ),
@@ -793,7 +797,7 @@ class _SearchPartnerState extends State<SearchPartner> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           STM().checkInternet(context, widget).then(
-                                (value) {
+                            (value) {
                               if (value) {
                                 setState(() {
                                   sType == null ? null : searchProperty();
@@ -818,6 +822,48 @@ class _SearchPartnerState extends State<SearchPartner> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget sliderLayout(ctx) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        viewportFraction: 0.9,
+        height: 180,
+        initialPage: 0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {
+            selectedSlider = index;
+          });
+        },
+      ),
+      items: bannerList.map((url) {
+        return Builder(
+          builder: (BuildContext context) {
+            return InkWell(
+              onTap: () {
+                STM().getLink(
+                  link: url['link'],
+                  linktype: url['link_type'],
+                  moduleid: url['module_id'],
+                  productid: url['product_id'],
+                  ctx: ctx,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  url['image'],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -850,6 +896,25 @@ class _SearchPartnerState extends State<SearchPartner> {
     if (success) {
       setState(() {
         typeOfPropertyList = result['data'];
+        getBannerList();
+        print("T O P :: $typeOfPropertyList");
+      });
+    } else {
+      STM().errorDialog(ctx, message);
+    }
+  }
+
+  /// get type of property List Api
+  void getBannerList() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    //Output
+    var result = await STM().getwithToken(
+        context, Str().loading, "get_matrimony_banner", sp.getString('token'));
+    var success = result['success'];
+    var message = result['message'];
+    if (success) {
+      setState(() {
+        bannerList = result['data'];
         print("T O P :: $typeOfPropertyList");
       });
     } else {

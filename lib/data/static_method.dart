@@ -20,6 +20,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../values/colors.dart';
 import '../values/dimens.dart';
 import '../values/styles.dart';
+import '../view/addestate/real_estate_details.dart';
+import '../view/matrimony/matrimony_details.dart';
+import '../view/old_is_gold/og_subcat_details.dart';
+import '../view/subcat_details.dart';
 import 'app_url.dart';
 
 class STM {
@@ -938,4 +942,58 @@ class STM {
       return NumberFormat('#,##0', 'en_IN').format(amount);
     }
   }
+
+   /// get banner link
+
+  void getLink({linktype, link, moduleid, productid,ctx}) async {
+    if (linktype == "1") {
+      try {
+        await launchUrl(Uri.parse(link));
+      } catch (_) {
+        STM().errorDialog(ctx, 'Link is invalid');
+      }
+    } else {
+      switch (moduleid) {
+        case 1:
+          STM().redirect2page(
+            ctx,
+            SubCatDetails(
+              data: {"id": productid},
+            ),
+          );
+          break;
+        case 2:
+          STM().redirect2page(
+              ctx,
+              OGSubCatDetails(
+                sID: productid,
+              ));
+          break;
+        case 3:
+          STM().redirect2page(
+              ctx,
+              RealEstateDetails(
+                sID: productid,
+              ));
+          break;
+        case 4:
+          STM().redirect2page(
+              ctx,
+              MatrimonyDetails(
+                sID: productid,
+              ));
+          break;
+        case 5:
+          STM().redirect2page(
+              ctx,
+              MatrimonyDetails(
+                sID: productid,
+              ));
+          break;
+        default:
+      }
+    }
+  }
+  
+
 }

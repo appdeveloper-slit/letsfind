@@ -4,6 +4,7 @@ import '../data/static_method.dart';
 
 List categoryList = [];
 List filterList = [];
+List CatbannerList = [];
 bool isLoaded = false;
 
 class categoryController {
@@ -22,6 +23,7 @@ class categoryController {
       setState(() {
         isLoaded = true;
         categoryList = result['data']['subcategories'];
+        CatbannerList = result['data']['banners'];
         filterList = categoryList;
       });
     } else {

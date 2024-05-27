@@ -10,6 +10,7 @@ import '../view/addestate/esatelist.dart';
 import '../view/addestate/step1.dart';
 import '../view/favlistPage.dart';
 import '../view/homelayout/home.dart';
+import '../view/matrimony/search_partner.dart';
 import '../view/old_is_gold/product_list.dart';
 import '../view/shop_listing.dart';
 
@@ -113,17 +114,23 @@ Widget bottomBarLayout(ctx, index, {b}) {
                                     )
                                   ],
                                 ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset('assets/matrimonys.svg'),
-                                    Text(
-                                      'Matrimony',
-                                      style: Sty().smallText.copyWith(
-                                            color: Color(0xff606060),
-                                          ),
-                                    )
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    STM().redirect2page(
+                                        ctx, const SearchPartner());
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset('assets/matrimonys.svg'),
+                                      Text(
+                                        'Matrimony',
+                                        style: Sty().smallText.copyWith(
+                                              color: Color(0xff606060),
+                                            ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 InkWell(
                                   onTap: () {

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
@@ -7,6 +9,7 @@ import 'package:letsfind/values/colors.dart';
 import 'package:letsfind/values/dimens.dart';
 import 'package:letsfind/values/strings.dart';
 import 'package:letsfind/values/styles.dart';
+import 'package:letsfind/view/homelayout/home.dart';
 import 'package:letsfind/view/imageview.dart';
 import 'package:letsfind/view/old_is_gold/zoomable_page.dart';
 import 'package:readmore/readmore.dart';
@@ -61,13 +64,15 @@ class _OGSubCatDetailsState extends State<OGSubCatDetails> {
 
     return WillPopScope(
       onWillPop: () async {
-        STM().replacePage(
-            ctx,
-            OGSubCatList(
-              sCatID: widget.sCatID,
-              sSubCatID: widget.sSubCatID,
-              sName: widget.sName,
-            ));
+        widget.sCatID != null
+            ? STM().replacePage(
+                ctx,
+                OGSubCatList(
+                  sCatID: widget.sCatID,
+                  sSubCatID: widget.sSubCatID,
+                  sName: widget.sName,
+                ))
+            : STM().finishAffinity(ctx, Home());
         return false;
       },
       child: Scaffold(
@@ -79,13 +84,15 @@ class _OGSubCatDetailsState extends State<OGSubCatDetails> {
             onTap: () {
               // STM().back2Previous(ctx);
               setState(() {
-                STM().replacePage(
-                    ctx,
-                    OGSubCatList(
-                      sCatID: widget.sCatID,
-                      sSubCatID: widget.sSubCatID,
-                      sName: widget.sName,
-                    ));
+                widget.sCatID != null
+                    ? STM().replacePage(
+                        ctx,
+                        OGSubCatList(
+                          sCatID: widget.sCatID,
+                          sSubCatID: widget.sSubCatID,
+                          sName: widget.sName,
+                        ))
+                    : STM().finishAffinity(ctx, Home());
               });
             },
             child: Padding(

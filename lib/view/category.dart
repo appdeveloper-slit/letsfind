@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,7 +23,7 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   late BuildContext ctx;
   TextEditingController editingController = TextEditingController();
-
+  int selectedSlider = 0;
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -78,6 +79,7 @@ class _CategoryPageState extends State<CategoryPage> {
         child: isLoaded
             ? Column(
                 children: [
+                  if (CatbannerList.isNotEmpty) sliderLayout(ctx),
                   TextFormField(
                     controller: editingController,
                     keyboardType: TextInputType.text,
@@ -156,6 +158,51 @@ class _CategoryPageState extends State<CategoryPage> {
               )
             : Container(),
       ),
+    );
+  }
+
+  Widget sliderLayout(ctx) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        viewportFraction: 0.9,
+        height: 180,
+        initialPage: 0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {
+            selectedSlider = index;
+          });
+        },
+      ),
+      items: CatbannerList.map((url) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: Dim().d12),
+          child: Builder(
+            builder: (BuildContext context) {
+              return InkWell(
+                onTap: () {
+                  STM().getLink(
+                    link: url['link'],
+                    linktype: url['link_type'],
+                    moduleid: url['module_id'],
+                    productid: url['product_id'],
+                    ctx: ctx,
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    url['image'],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }).toList(),
     );
   }
 

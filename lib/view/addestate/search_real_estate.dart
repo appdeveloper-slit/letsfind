@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +34,9 @@ class _SearchRealEstateState extends State<SearchRealEstate> {
   TextEditingController maxCtrl = TextEditingController();
 
   var propertyData;
+
+  List bannerList = [];
+  int selectedSlider = 0;
 
   List<dynamic> propertyTypeList = [
     {'name': 'Resendential', "id": "1"},
@@ -133,6 +137,7 @@ class _SearchRealEstateState extends State<SearchRealEstate> {
             key: _formKey,
             child: Column(
               children: [
+                if (bannerList.isNotEmpty) sliderLayout(ctx),
                 Container(
                   decoration: BoxDecoration(
                     color: Clr().white,
@@ -819,6 +824,48 @@ class _SearchRealEstateState extends State<SearchRealEstate> {
     );
   }
 
+  Widget sliderLayout(ctx) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        viewportFraction: 0.9,
+        height: 180,
+        initialPage: 0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {
+            selectedSlider = index;
+          });
+        },
+      ),
+      items: bannerList.map((url) {
+        return Builder(
+          builder: (BuildContext context) {
+            return InkWell(
+              onTap: () {
+                STM().getLink(
+                  link: url['link'],
+                  linktype: url['link_type'],
+                  moduleid: url['module_id'],
+                  productid: url['product_id'],
+                  ctx: ctx,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  url['image'],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+
   /// getCities List Api
   void getCities() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -848,6 +895,25 @@ class _SearchRealEstateState extends State<SearchRealEstate> {
     if (success) {
       setState(() {
         typeOfPropertyList = result['data'];
+        getBannerList();
+        print("T O P :: $typeOfPropertyList");
+      });
+    } else {
+      STM().errorDialog(ctx, message);
+    }
+  }
+
+  /// get type of property List Api
+  void getBannerList() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    //Output
+    var result = await STM().getwithToken(
+        context, Str().loading, "get_real_estate_banner", sp.getString('token'));
+    var success = result['success'];
+    var message = result['message'];
+    if (success) {
+      setState(() {
+        bannerList = result['data'];
         print("T O P :: $typeOfPropertyList");
       });
     } else {

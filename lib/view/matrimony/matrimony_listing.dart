@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:letsfind/values/dimens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../bottomnavigation/bottomnavigationPage.dart';
 import '../../data/static_method.dart';
 import '../../values/colors.dart';

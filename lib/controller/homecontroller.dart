@@ -7,7 +7,7 @@ List sliderList = [];
 List categoriesList = [];
 
 class homeController {
-  void getHomeApi(ctx, setState, lat, lng) async {
+  void getHomeApi(ctx, setState, lat, lng,pincode) async {
     AwesomeDialog dialog = STM().loadingDialog(ctx, "Loading...");
     dialog.show();
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -20,6 +20,7 @@ class homeController {
         'uuid': OneSignal.User.pushSubscription.id,
         'lattitude': lat,
         'longitude': lng,
+        'pincode': pincode,
       },
     );
     print(OneSignal.User.pushSubscription.id);

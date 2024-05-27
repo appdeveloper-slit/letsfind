@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,12 +16,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../bottomnavigation/bottomnavigationPage.dart';
 import '../../data/static_method.dart';
+import '../addestate/real_estate_details.dart';
 import '../addestate/search_real_estate.dart';
 import '../crime_report.dart';
 import '../emergencyservices.dart';
+import '../matrimony/matrimony_details.dart';
 import '../matrimony/search_partner.dart';
+import '../old_is_gold/og_subcat_details.dart';
+import '../subcat_details.dart';
 import 'appbarpage.dart';
 
 GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
@@ -38,6 +45,7 @@ class _HomeState extends State<Home> {
 
   int selectedSlider = 0;
   Position? position;
+  var pincode;
   List carddetails = [
     {
       'color': 0XFFFFE0D1,
@@ -55,8 +63,9 @@ class _HomeState extends State<Home> {
       position = await Geolocator.getCurrentPosition();
       List<Placemark> list = await placemarkFromCoordinates(
           position!.latitude, position!.longitude);
-      homeController().getHomeApi(
-          context, setState, position!.latitude, position!.longitude);
+      pincode = list[0].postalCode;
+      homeController().getHomeApi(context, setState, position!.latitude,
+          position!.longitude, list[0].postalCode);
       print(list);
     } else {
       getLoc();
@@ -71,8 +80,9 @@ class _HomeState extends State<Home> {
       position = await Geolocator.getCurrentPosition();
       List<Placemark> list = await placemarkFromCoordinates(
           position!.latitude, position!.longitude);
-      homeController().getHomeApi(
-          context, setState, position!.latitude, position!.longitude);
+      pincode = list[0].postalCode;
+      homeController().getHomeApi(context, setState, position!.latitude,
+          position!.longitude, list[0].postalCode);
       print(list);
     }
     if (permission == LocationPermission.denied ||
@@ -159,7 +169,7 @@ class _HomeState extends State<Home> {
     await Future.delayed(const Duration(seconds: 2));
     setState(() {
       homeController().getHomeApi(
-          context, setState, position!.latitude, position!.longitude);
+          context, setState, position!.latitude, position!.longitude, pincode);
       _refreshController.refreshCompleted();
     });
   }
@@ -452,11 +462,22 @@ class _HomeState extends State<Home> {
       items: sliderList.map((url) {
         return Builder(
           builder: (BuildContext context) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                url['image'],
-                fit: BoxFit.cover,
+            return InkWell(
+              onTap: () {
+                STM().getLink(
+                  link: url['link'],
+                  linktype: url['link_type'],
+                  moduleid: url['module_id'],
+                  productid: url['product_id'],
+                  ctx: ctx,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  url['image'],
+                  fit: BoxFit.cover,
+                ),
               ),
             );
           },

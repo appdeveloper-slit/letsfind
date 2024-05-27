@@ -9,7 +9,6 @@ import 'package:letsfind/values/colors.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../bottomnavigation/bottomnavigationPage.dart';
 import '../controller/subcatdetailscontroller.dart';
 import '../data/static_method.dart';
@@ -19,7 +18,6 @@ import 'reviewdetails.dart';
 
 class SubCatDetails extends StatefulWidget {
   final data;
-
   const SubCatDetails({Key? key, this.data}) : super(key: key);
 
   @override
@@ -165,7 +163,7 @@ class _SubCatDetailsState extends State<SubCatDetails> {
                                                 WrapCrossAlignment.center,
                                             children: [
                                               Text(
-                                                widget.data['rating']
+                                                details['rating']
                                                     .toString(),
                                                 style: Sty().microText.copyWith(
                                                     color: Clr().white,
@@ -203,7 +201,7 @@ class _SubCatDetailsState extends State<SubCatDetails> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              '${STM().formatAmount(widget.data['total_review'])} Reviews',
+                                              '${STM().formatAmount(details['total_review'])} Reviews',
                                               style: Sty().smallText.copyWith(
                                                   color: Color(0xff464646),
                                                   fontWeight: FontWeight.w600),
@@ -221,7 +219,7 @@ class _SubCatDetailsState extends State<SubCatDetails> {
                                       SizedBox(
                                         width: Dim().d32,
                                       ),
-                                      if (widget.data['is_verified'] == true)
+                                      if (details['is_verified'] == true)
                                         Container(
                                           decoration: BoxDecoration(
                                               color: const Color(0xff2AC0D4),
