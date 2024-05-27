@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "658427837597",
+    "project_id": "letsfind-44240",
+    "storage_bucket": "letsfind-44240.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658427837597:android:f37df9bb4a323d7fffe874",
+        "android_client_info": {
+          "package_name": "com.app.letsfind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtiOraUV5cxkG5P-BZ1JDUoyos8ZP4hxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
