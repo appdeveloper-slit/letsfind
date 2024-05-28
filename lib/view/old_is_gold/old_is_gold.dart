@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:letsfind/values/dimens.dart';
@@ -19,7 +20,8 @@ class OldIsGold extends StatefulWidget {
 
 class _OldIsGoldState extends State<OldIsGold> {
   late BuildContext ctx;
-
+  int selectedSlider = 0;
+  List sliderlist = [];
   List<dynamic> catList = [];
   String? sToken;
   bool isLoaded = false;
@@ -86,6 +88,7 @@ class _OldIsGoldState extends State<OldIsGold> {
         child: isLoaded
             ? Column(
                 children: [
+                  if (sliderlist.isNotEmpty) sliderLayout(ctx),
                   catList.isNotEmpty
                       ? Card(
                           elevation: 0,
@@ -183,11 +186,53 @@ class _OldIsGoldState extends State<OldIsGold> {
     );
   }
 
+  Widget sliderLayout(ctx) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        viewportFraction: 0.9,
+        height: 180,
+        initialPage: 0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {
+            selectedSlider = index;
+          });
+        },
+      ),
+      items: sliderlist.map((url) {
+        return Builder(
+          builder: (BuildContext context) {
+            return InkWell(
+              onTap: () {
+                STM().getLink(
+                  link: url['link'],
+                  linktype: url['link_type'],
+                  moduleid: url['module_id'],
+                  productid: url['product_id'],
+                  ctx: ctx,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  url['image'],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+
   /// get Categories List Api
   void getCategory() async {
     //Output
-    var result = await STM().getwithToken(
-        ctx, Str().loading, "old_gold_get_categories", sToken);
+    var result = await STM()
+        .getwithToken(ctx, Str().loading, "old_gold_get_categories", sToken);
     var success = result['success'];
     var message = result['message'];
     if (success) {
@@ -195,6 +240,7 @@ class _OldIsGoldState extends State<OldIsGold> {
         () {
           isLoaded = true;
           catList = result['data']['categories'];
+          sliderlist = result['data']['banners'];
         },
       );
     } else {

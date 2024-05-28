@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,6 +26,8 @@ class _OGCategoryState extends State<OGCategory> {
 
   List<dynamic> subCatList = [];
   bool isLoaded = false;
+  int selectedSlider = 0;
+  List sliderlist = [];
 
   getSessionData() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -92,6 +95,7 @@ class _OGCategoryState extends State<OGCategory> {
         child: isLoaded
             ? Column(
                 children: [
+                  if (sliderlist.isNotEmpty) sliderLayout(ctx),
                   subCatList.isNotEmpty
                       ? Card(
                           elevation: 0,
@@ -188,6 +192,48 @@ class _OGCategoryState extends State<OGCategory> {
     );
   }
 
+  Widget sliderLayout(ctx) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        viewportFraction: 0.9,
+        height: 180,
+        initialPage: 0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {
+            selectedSlider = index;
+          });
+        },
+      ),
+      items: sliderlist.map((url) {
+        return Builder(
+          builder: (BuildContext context) {
+            return InkWell(
+              onTap: () {
+                STM().getLink(
+                  link: url['link'],
+                  linktype: url['link_type'],
+                  moduleid: url['module_id'],
+                  productid: url['product_id'],
+                  ctx: ctx,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  url['image'],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+
   /// get Sub Categories List Api
   void getSubCategory() async {
     FormData body = FormData.fromMap({
@@ -203,6 +249,7 @@ class _OGCategoryState extends State<OGCategory> {
         () {
           isLoaded = true;
           subCatList = result['data']['subcategories'];
+          sliderlist = result['data']['banners'];
         },
       );
     } else {
